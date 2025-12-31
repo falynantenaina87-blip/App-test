@@ -2,11 +2,13 @@ import { createClient } from '@supabase/supabase-js';
 import { Profile, Message, Announcement, Quiz } from '../types';
 
 // --- CONFIGURATION ---
-const supabaseUrl = (import.meta as any).env.VITE_SUPABASE_URL;
-const supabaseAnonKey = (import.meta as any).env.VITE_SUPABASE_ANON_KEY;
+// Accès sécurisé à l'environnement (évite le crash si import.meta.env n'existe pas)
+const env = (import.meta as any).env || {};
+const supabaseUrl = env.VITE_SUPABASE_URL;
+const supabaseAnonKey = env.VITE_SUPABASE_ANON_KEY;
 
 // Check if env vars are present
-const isConfigured = supabaseUrl && supabaseAnonKey;
+const isConfigured = !!(supabaseUrl && supabaseAnonKey);
 
 // --- REAL CLIENT OR FALLBACK ---
 let supabaseClient: any;
